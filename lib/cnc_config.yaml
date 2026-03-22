@@ -1,5 +1,5 @@
 # CNC Machine configuration
-serial_port: COM9
+serial_port: COM16
 baud_rate: 115200
 
 # Axis travel limits (mm)

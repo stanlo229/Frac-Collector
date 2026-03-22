@@ -49,7 +49,7 @@ class VialTracker:
     def _load(self):
         with open(self.yaml_path, "r") as f:
             data = yaml.safe_load(f)
-        self.vials = data.get("vials", [])
+        self.vials = data.get("sample_vials", [])
 
         # Ensure the list always has exactly num_vials slots
         while len(self.vials) < self.num_vials:
@@ -62,8 +62,18 @@ class VialTracker:
                 v["vial_name"] = _vial_name(v["index"])
 
     def _save(self):
+        # Load full file to preserve all sections (capacity_ml, waste_vials)
+        full_data = {}
+        if os.path.exists(self.yaml_path):
+            with open(self.yaml_path, "r") as f:
+                full_data = yaml.safe_load(f) or {}
+        
+        # Update sample_vials section
+        full_data["sample_vials"] = self.vials
+        
+        # Write back
         with open(self.yaml_path, "w") as f:
-            yaml.dump({"vials": self.vials}, f, default_flow_style=False, allow_unicode=True)
+            yaml.dump(full_data, f, default_flow_style=False, allow_unicode=True)
 
     # ---- Public API ----
 

@@ -7,14 +7,24 @@ import os
 
 
 class CNC_Machine():
-    CONFIG_FILE = 'cnc_config.yaml'
+    #All of this data could also be stored in a yaml file
+    BAUD_RATE = 115200
+    SERIAL_PORT = "COM16" #Serial Port you are using
+    X_LOW_BOUND = 0
+    X_HIGH_BOUND = 270 #Note this bound wasn't working upstairs, but it is usually the boundary for the small CNC machine
+    Y_LOW_BOUND = 0
+    Y_HIGH_BOUND = 150
+    Z_LOW_BOUND = -35
+    Z_HIGH_BOUND = 0
 
     #Tracks the locations
     LOCATIONS = None
+    CONFIG_FILE = 'cnc_config.yaml'
+    LOCATION_FILE = 'location_status.yaml'
 
     def __init__(self, virtual=False, config_file=None):
         cfg = self._load_config(config_file)
-        self.SERIAL_PORT = cfg.get('serial_port', 'COM9')
+        self.SERIAL_PORT = cfg.get('serial_port', 'COM16')
         self.BAUD_RATE = cfg.get('baud_rate', 115200)
         self.X_LOW_BOUND = cfg.get('x_low_bound', 0)
         self.X_HIGH_BOUND = cfg.get('x_high_bound', 270)
@@ -31,9 +41,12 @@ class CNC_Machine():
         """Load cnc_config.yaml from the same directory as this file."""
         if config_file is None:
             config_file = os.path.join(os.path.dirname(os.path.abspath(__file__)), self.CONFIG_FILE)
+        
         if os.path.isfile(config_file):
             with open(config_file, 'r') as f:
                 return yaml.safe_load(f) or {}
+        
+        # Return empty dict if config file not found (uses class defaults)
         return {}
 
     def _resolve_location_file(self):

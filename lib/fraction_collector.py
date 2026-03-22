@@ -2,11 +2,12 @@ from vernier_drop_counter import DripCounter
 from cnc_machine import CNC_Machine
 from runze_valve import RunzeValve
 from vial_tracker import VialTracker
+from waste_vial_tracker import WasteVialTracker
 import time
 import math
 import os
 
-DROP_VOLUME_ML = 0.025   # 1 drop = 25 µL = 0.025 mL
+DROP_VOLUME_ML = 0.02   # 1 drop = 25 µL = 0.025 mL
 GPC_VOLUME_ML  = 0.10   # first vial per reaction: 4 drops × 0.025 mL
 
     
@@ -16,8 +17,7 @@ class FractionCollector:
     valve_controller = None
     mux_id = None
 
-    def __init__(self, sensor_id=1, runze_valve_port='COM7', runze_valve_address=0, runze_valve_num_port=10, collection_num=3, waste_num=6,
-                 vial_tracker_path=None):
+    def __init__(self, sensor_id=1, runze_valve_port='COM12', runze_valve_address=0, runze_valve_num_port=10, collection_num=3, waste_num=6, vial_tracker_path=None, waste_vial_tracker_path=None):
         try:
             self.counter = DripCounter(sensor_id=sensor_id)
         except Exception as ex:
@@ -32,6 +32,9 @@ class FractionCollector:
             os.path.dirname(__file__), "vial_status.yaml"
         )
         self.vial_tracker = VialTracker(yaml_path=_tracker_path)
+
+        # Use same vial_status.yaml for waste vials (consolidated tracking)
+        self.waste_vial_tracker = WasteVialTracker(yaml_path=_tracker_path)
 
         self.move_to_waste()
 
@@ -51,6 +54,8 @@ class FractionCollector:
             time.sleep(rinse_ml * 0.5 / DROP_VOLUME_ML)  # rough timed rinse when no sensor
         self.set_valve_state(self.waste_num)
         print("Rinsing complete.\n")
+        # Track rinse waste volume
+        self.move_to_waste(dispensed_ml=rinse_ml)
         # Move to the vial
         self.cnc_machine.move_to_location(location, location_index, safe=True, speed=4000)
         print(f"Collecting fraction at {location} (index {location_index}) until {threshold_ml} mL...\n")
@@ -158,24 +163,29 @@ class FractionCollector:
 
         vials_used = []
         loc_index = start_index
-        vial_count = 0  # 0 = first vial (GPC), 1+ = sample vials
+        prev_x = None
+        vial_count = 0
 
         while True:
+            # Determine current vial parameters based on whether it is the first vial
+            if vial_count == 0:
+                current_volume_ml = GPC_VOLUME_ML
+                current_label = "GPC"
+            else:
+                current_volume_ml = threshold_ml
+                current_label = "sample"
+
+            current_drops = math.floor(current_volume_ml / DROP_VOLUME_ML)
+            current_fill_time_s = (current_volume_ml / flow_rate_ml_min * 60) if flow_rate_ml_min > 0 else None
+
             remaining = collection_duration_s - (time.time() - collection_start)
             if remaining <= 0:
                 break
 
-            # First vial per reaction is the GPC vial (100 µL); rest are sample vials
-            is_gpc = (vial_count == 0)
-            current_volume_ml = GPC_VOLUME_ML if is_gpc else threshold_ml
-            current_drops     = math.floor(current_volume_ml / DROP_VOLUME_ML)
-            current_label     = "GPC" if is_gpc else "sample"
-            if flow_rate_ml_min > 0:
-                current_fill_time_s = (current_volume_ml / flow_rate_ml_min) * 60
-            else:
-                current_fill_time_s = vial_fill_time_s  # may be None
-
-            self.cnc_machine.move_to_location(location, loc_index, safe=False, speed=4000)
+            x, _, _ = self.cnc_machine.get_location_position(location, loc_index)
+            # Always use safe travel as requested
+            self.cnc_machine.move_to_location(location, loc_index, safe=True)
+            prev_x = x
 
             remaining = collection_duration_s - (time.time() - collection_start)
             if remaining <= 0:
@@ -267,8 +277,20 @@ class FractionCollector:
         """Set the valve to a specific port."""
         self.valve.set_current_port(port)
 
-    def move_to_waste(self, location = "cnc_waste_location", location_index=0, safe=True):
-        """Close valve and move to the CNC waste location."""
+    def move_to_waste(self, location="cnc_waste_location", location_index=0, safe=True, dispensed_ml=0.0):
+        """Move to CNC waste location and optionally track dispensed waste volume.
+        
+        Args:
+            location: CNC location name (default: "cnc_waste_location")
+            location_index: index within that location (default: 0)
+            safe: use safe travel (Z-up, XY, Z-down) (default: True)
+            dispensed_ml: volume of waste dispensed into waste vial (default: 0.0)
+        """
+        # Track waste volume if specified
+        if dispensed_ml > 0.0:
+            self.waste_vial_tracker.add_volume(dispensed_ml)
+            self.waste_vial_tracker.vials[self.waste_vial_tracker.current_vial_index]["volume_ml"] = \
+                round(self.waste_vial_tracker.current_volume_ml, 4)
+        
         self.cnc_machine.move_to_location(location, location_index, safe=safe)
         self.set_valve_state(self.collection_num)
-        # self.cnc_machine.move_to_point(z=-35)
