@@ -3,35 +3,35 @@ capacity_ml:
   waste_vials: 3.5
 sample_vials:
 - index: 0
-  label: GPC
-  reaction_name: 2026_03_21_SL_test
+  label: ''
+  reaction_name: ''
   vial_name: A1
-  volume_ml: 0.1008
+  volume_ml: 0.0
 - index: 1
-  label: sample
-  reaction_name: 2026_03_21_SL_test
+  label: ''
+  reaction_name: ''
   vial_name: A2
-  volume_ml: 1.501
+  volume_ml: 0.0
 - index: 2
-  label: sample
-  reaction_name: 2026_03_21_SL_test
+  label: ''
+  reaction_name: ''
   vial_name: A3
-  volume_ml: 1.501
+  volume_ml: 0.0
 - index: 3
-  label: GPC
-  reaction_name: 2026_03_21_SL_test
+  label: ''
+  reaction_name: ''
   vial_name: A4
-  volume_ml: 0.1007
+  volume_ml: 0.0
 - index: 4
-  label: sample
-  reaction_name: 2026_03_21_SL_test
+  label: ''
+  reaction_name: ''
   vial_name: A5
-  volume_ml: 1.5005
+  volume_ml: 0.0
 - index: 5
-  label: sample
-  reaction_name: 2026_03_21_SL_test
+  label: ''
+  reaction_name: ''
   vial_name: A6
-  volume_ml: 1.2823
+  volume_ml: 0.0
 - index: 6
   label: ''
   reaction_name: ''
@@ -247,10 +247,22 @@ waste_vials:
   vials:
   - full: false
     index: 0
-    volume_ml: 0.6
+    volume_ml: 2.0106
   - full: false
     index: 1
     volume_ml: 0.0
   - full: false
     index: 2
+    volume_ml: 0.0
+  - full: false
+    index: 3
+    volume_ml: 0.0
+  - full: false
+    index: 4
+    volume_ml: 0.0
+  - full: false
+    index: 5
+    volume_ml: 0.0
+  - full: false
+    index: 6
     volume_ml: 0.0

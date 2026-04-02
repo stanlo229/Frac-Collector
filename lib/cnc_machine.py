@@ -19,7 +19,7 @@ class CNC_Machine():
 
     #Tracks the locations
     LOCATIONS = None
-    CONFIG_FILE = 'cnc_config.yaml'
+    CONFIG_FILE = 'hardware_config.yaml'
     LOCATION_FILE = 'location_status.yaml'
 
     def __init__(self, virtual=False, config_file=None):

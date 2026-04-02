@@ -33,7 +33,7 @@ class SampleProducer:
         )
 
         # Hardware control
-        self.valve = RunzeValve(com_port='COM8', address=0, num_port=10)
+        self.valve = RunzeValve(com_port='COM12', address=0, num_port=10)
         self.producer_thread = threading.Thread(target=self.run, daemon=True)
 
     def log(self, message):

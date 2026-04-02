@@ -1,0 +1,7 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(grep -n \"start.*index\\\\|end.*index\\\\|\\\\[.*:.*\\\\]\" \"c:\\\\Users\\\\SDL4\\\\Repos\\\\valves\\\\src\\\\matterlab_valves\"/*.py)"
+    ]
+  }
+}
