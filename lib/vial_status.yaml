@@ -3,20 +3,20 @@ capacity_ml:
   waste_vials: 3.5
 sample_vials:
 - index: 0
-  label: ''
-  reaction_name: ''
+  label: GPC
+  reaction_name: 2026_03_21_SL_test
   vial_name: A1
-  volume_ml: 0.0
+  volume_ml: 0.1005
 - index: 1
-  label: ''
-  reaction_name: ''
+  label: sample
+  reaction_name: 2026_03_21_SL_test
   vial_name: A2
-  volume_ml: 0.0
+  volume_ml: 1.5002
 - index: 2
-  label: ''
-  reaction_name: ''
+  label: sample
+  reaction_name: 2026_03_21_SL_test
   vial_name: A3
-  volume_ml: 0.0
+  volume_ml: 0.931
 - index: 3
   label: ''
   reaction_name: ''
@@ -247,7 +247,7 @@ waste_vials:
   vials:
   - full: false
     index: 0
-    volume_ml: 2.0106
+    volume_ml: 0.0
   - full: false
     index: 1
     volume_ml: 0.0

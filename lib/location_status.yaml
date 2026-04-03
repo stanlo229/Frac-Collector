@@ -21,7 +21,7 @@ well_plate_location: #48-well locations (index 0 through 47); x_step: 2 → use 
   x_origin: 153.6
   y_origin: 95
   z_origin: -20
-  x_offset: 15.0
+  x_offset: -15.0
   y_offset: -14.6
   #Note: These locations may need to be edited
 well_plate_location_long_needle_dispense: #48-well locations (index 0 through 47)
@@ -30,7 +30,7 @@ well_plate_location_long_needle_dispense: #48-well locations (index 0 through 47
   x_origin: 167.0
   y_origin: 97.5
   z_origin: -10.0
-  x_offset: 15.0
+  x_offset: -15.0
   y_offset: -14.6
   #Note: These locations may need to be edited
 well_plate_location_long_needle_aspirate: #48-well locations (index 0 through 47)
@@ -39,7 +39,7 @@ well_plate_location_long_needle_aspirate: #48-well locations (index 0 through 47
   x_origin: 167.0
   y_origin: 97.5
   z_origin: -37
-  x_offset: 15.0
+  x_offset: -15.0
   y_offset: -14.6
   #Note: These locations may need to be edited
 cnc_waste_location: #Top right edge of the 48-well plate
