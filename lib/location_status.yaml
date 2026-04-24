@@ -22,7 +22,7 @@ well_plate_location: #48-well locations (index 0 through 47); x_step: 2 → use 
   y_origin: 95
   z_origin: -20
   x_offset: -15.0
-  y_offset: -14.6
+  y_offset: -14.4
   #Note: These locations may need to be edited
 well_plate_location_long_needle_dispense: #48-well locations (index 0 through 47)
   num_x: 6
@@ -31,7 +31,7 @@ well_plate_location_long_needle_dispense: #48-well locations (index 0 through 47
   y_origin: 97.5
   z_origin: -10.0
   x_offset: -15.0
-  y_offset: -14.6
+  y_offset: -14.4
   #Note: These locations may need to be edited
 well_plate_location_long_needle_aspirate: #48-well locations (index 0 through 47)
   num_x: 6
