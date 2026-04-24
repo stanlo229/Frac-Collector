@@ -18,19 +18,17 @@ class FractionCollector:
     valve_controller = None
     mux_id = None
 
-    def __init__(self, sensor_id=None, runze_valve_port=None, runze_valve_address=None, runze_valve_num_port=None, collection_num=None, waste_num=None, vial_tracker_path=None, waste_vial_tracker_path=None, config_file=None, cnc_machine=None):
-        # Load defaults from hardware config, then override with any explicit args
-        cfg = {}
+    def __init__(self, sensor_id=1, runze_valve_port='COM7', runze_valve_address=0, runze_valve_num_port=10, collection_num=3, waste_num=6,
+                 vial_tracker_path=None, config_file=None, cnc_machine=None):
         if config_file is not None:
-            with open(config_file, "r") as _f:
-                cfg = yaml.safe_load(_f).get("fraction_collector", {})
-        sensor_id          = sensor_id          if sensor_id          is not None else cfg.get("sensor_id",          1)
-        runze_valve_port   = runze_valve_port   if runze_valve_port   is not None else cfg.get("runze_valve_port",   "COM12")
-        runze_valve_address= runze_valve_address if runze_valve_address is not None else cfg.get("runze_valve_address", 0)
-        runze_valve_num_port=runze_valve_num_port if runze_valve_num_port is not None else cfg.get("runze_valve_num_port",10)
-        collection_num     = collection_num     if collection_num     is not None else cfg.get("collection_num",     3)
-        waste_num          = waste_num          if waste_num          is not None else cfg.get("waste_num",          6)
-
+            with open(config_file) as f:
+                cfg = yaml.safe_load(f).get('fraction_collector', {})
+            sensor_id = cfg.get('sensor_id', sensor_id)
+            runze_valve_port = cfg.get('runze_valve_port', runze_valve_port)
+            runze_valve_address = cfg.get('runze_valve_address', runze_valve_address)
+            runze_valve_num_port = cfg.get('runze_valve_num_port', runze_valve_num_port)
+            collection_num = cfg.get('collection_num', collection_num)
+            waste_num = cfg.get('waste_num', waste_num)
         try:
             self.counter = DripCounter(sensor_id=sensor_id)
         except Exception as ex:
