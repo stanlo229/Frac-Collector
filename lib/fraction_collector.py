@@ -316,5 +316,5 @@ class FractionCollector:
             self.waste_vial_tracker.current_vial_index,
             self.waste_vial_tracker.num_waste_vials - 1,
         )
+        self.set_valve_state(self.waste_num)
         self.cnc_machine.move_to_location(location, vial_idx, safe=safe)
-        self.set_valve_state(self.collection_num)

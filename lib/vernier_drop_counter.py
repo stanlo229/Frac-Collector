@@ -1,5 +1,5 @@
 import time
-from gdx import GDX
+from gdx import gdx as GDX
 
 class DripCounter:
     def __init__(self, sensor_id=1):
