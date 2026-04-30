@@ -584,4 +584,4 @@ class gdx:
             
         return discovered_ble_devices
 
-   
+GDX = gdx

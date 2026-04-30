@@ -30,6 +30,8 @@ class VialTracker:
     def __init__(self, yaml_path: str = DEFAULT_YAML_PATH, num_vials: int = NUM_VIALS):
         self.yaml_path = yaml_path
         self.num_vials = num_vials
+        self.current_vial_index = 0   # compatibility shim for WasteVialTracker interface
+        self.num_waste_vials = num_vials
 
         if os.path.exists(yaml_path):
             self._load()
