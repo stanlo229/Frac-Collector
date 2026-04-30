@@ -40,7 +40,7 @@ well_plate_location_long_needle_aspirate: #48-well locations (index 0 through 47
   y_origin: 97.5
   z_origin: -37
   x_offset: -15.0
-  y_offset: -14.6
+  y_offset: -14.4
   #Note: These locations may need to be edited
 cnc_waste_location: #Top right edge of the 48-well plate
   x_origin: 16.0

@@ -1,4 +1,4 @@
-from vernier_drop_counter import DripCounter
+
 from cnc_machine import CNC_Machine
 from runze_valve import RunzeValve
 from vial_tracker import VialTracker
@@ -29,11 +29,6 @@ class FractionCollector:
             runze_valve_num_port = cfg.get('runze_valve_num_port', runze_valve_num_port)
             collection_num = cfg.get('collection_num', collection_num)
             waste_num = cfg.get('waste_num', waste_num)
-        try:
-            self.counter = DripCounter(sensor_id=sensor_id)
-        except Exception as ex:
-            print(f"Drop counter initialisation failed ({ex}). Falling back to time-based mode.")
-            self.counter = None
         self.cnc_machine = cnc_machine if cnc_machine is not None else CNC_Machine()
         self.valve = RunzeValve(com_port=runze_valve_port, address=runze_valve_address, num_port=runze_valve_num_port)
         self.collection_num = collection_num
@@ -316,5 +311,5 @@ class FractionCollector:
             self.waste_vial_tracker.current_vial_index,
             self.waste_vial_tracker.num_waste_vials - 1,
         )
+        self.set_valve_state(self.waste_num)
         self.cnc_machine.move_to_location(location, vial_idx, safe=safe)
-        self.set_valve_state(self.collection_num)
