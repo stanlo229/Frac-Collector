@@ -18,31 +18,31 @@ well_plate_location: #48-well locations (index 0 through 47); x_step: 2 → use 
   num_x: 6
   num_y: 8
   x_step: 2    # advance 2 physical columns per logical column (skip empty cols)
-  x_origin: 153.6
-  y_origin: 95
+  x_origin: 154.0
+  y_origin: 98.0
   z_origin: -20
-  x_offset: -15.0
-  y_offset: -14.4
+  x_offset: -16.0
+  y_offset: -14.0
   #Note: These locations may need to be edited
 well_plate_location_long_needle_dispense: #48-well locations (index 0 through 47)
   num_x: 6
   num_y: 8
   x_step: 2    # advance 2 physical columns per logical column (matches well_plate_location)
   x_origin: 167.0
-  y_origin: 97.5
+  y_origin: 98.0
   z_origin: -10.0
-  x_offset: -15.0
-  y_offset: -14.4
+  x_offset: -16.0
+  y_offset: -14.0
   #Note: These locations may need to be edited
 well_plate_location_long_needle_aspirate: #48-well locations (index 0 through 47)
   num_x: 6
   num_y: 8
   x_step: 2    # advance 2 physical columns per logical column (matches well_plate_location)
   x_origin: 167.0
-  y_origin: 97.5
+  y_origin: 98.0
   z_origin: -37
-  x_offset: -15.0
-  y_offset: -14.4
+  x_offset: -16.0
+  y_offset: -14.0
   #Note: These locations may need to be edited
 cnc_waste_location: #Top right edge of the 48-well plate
   x_origin: 16.0
