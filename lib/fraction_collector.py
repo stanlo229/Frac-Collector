@@ -200,22 +200,24 @@ class FractionCollector:
             self.cnc_machine.move_to_location(location, loc_index, safe=safe_move)
             prev_x = x
 
-            remaining = collection_duration_s - (time.time() - collection_start)
-            if remaining <= 0:
-                break
-
+            # Always restore the collection port after arriving at the new vial.
+            # If the CNC movement consumed the remaining window, remaining may be
+            # zero or negative here — that is handled by clamping effective_timeout
+            # below so the fill exits immediately and the post-fill break fires.
             self.set_valve_state(self.collection_num)
+
+            remaining = collection_duration_s - (time.time() - collection_start)
 
             if current_fill_time_s is not None:
                 if use_drops:
                     # Drop mode: per_vial_timeout is a safety net against a hung sensor.
-                    effective_timeout = min(per_vial_timeout, current_fill_time_s, remaining)
+                    effective_timeout = max(0.0, min(per_vial_timeout, current_fill_time_s, remaining))
                 else:
                     # Time-only mode: advance vials purely by flow-rate-derived timing.
                     # per_vial_timeout must not truncate the fill window here.
-                    effective_timeout = min(current_fill_time_s, remaining)
+                    effective_timeout = max(0.0, min(current_fill_time_s, remaining))
             else:
-                effective_timeout = min(per_vial_timeout, remaining)
+                effective_timeout = max(0.0, min(per_vial_timeout, remaining))
 
             print(
                 f"[{reaction_name}] Filling vial {loc_index} ({current_label}, {current_volume_ml*1000:.0f} µL) "
