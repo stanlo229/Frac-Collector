@@ -18,34 +18,34 @@ well_plate_location: #48-well locations (index 0 through 47); x_step: 2 → use 
   num_x: 6
   num_y: 8
   x_step: 2    # advance 2 physical columns per logical column (skip empty cols)
-  x_origin: 154.0
+  x_origin: 157.0
   y_origin: 98.0
   z_origin: -20
-  x_offset: -16.0
+  x_offset: -14.0
   y_offset: -14.0
   #Note: These locations may need to be edited
 well_plate_location_long_needle_dispense: #48-well locations (index 0 through 47)
   num_x: 6
   num_y: 8
   x_step: 2    # advance 2 physical columns per logical column (matches well_plate_location)
-  x_origin: 167.0
-  y_origin: 98.0
+  x_origin: 170.2
+  y_origin: 98.0 # CANNOT CHANGE THIS!!! Perfectly calibrated so it doesnt go out of bounds
   z_origin: -10.0
-  x_offset: -16.0
+  x_offset: -14.0
   y_offset: -14.0
   #Note: These locations may need to be edited
 well_plate_location_long_needle_aspirate: #48-well locations (index 0 through 47)
   num_x: 6
   num_y: 8
   x_step: 2    # advance 2 physical columns per logical column (matches well_plate_location)
-  x_origin: 167.0
+  x_origin: 170.2
   y_origin: 98.0
   z_origin: -37
-  x_offset: -16.0
+  x_offset: -14.0
   y_offset: -14.0
   #Note: These locations may need to be edited
 cnc_waste_location: #Top right edge of the 48-well plate
-  x_origin: 16.0
+  x_origin: 19.0
   y_origin: 25.0
   z_origin: -20.0
   num_y: 8
@@ -53,7 +53,7 @@ cnc_waste_location: #Top right edge of the 48-well plate
   y_offset: 20
   max: 7
 cnc_waste_location_long_needle: #Top right edge of the 48-well plate
-  x_origin: 28.0
+  x_origin: 31.0
   y_origin: 27.0
   z_origin: -10.0
   num_y: 8
@@ -61,7 +61,7 @@ cnc_waste_location_long_needle: #Top right edge of the 48-well plate
   y_offset: 20
   max: 7
 cnc_rinse_long_needle_location:
-  x_origin: 28.0
+  x_origin: 31.0
   y_origin: 7.0
   z_origin: -37.0
 96_well_plate_location: 

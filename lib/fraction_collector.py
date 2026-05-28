@@ -91,7 +91,7 @@ class FractionCollector:
         return True
 
     def collect_reaction(self, reaction_name, threshold_ml, location, start_index,
-                         collection_duration_s, flow_rate_ml_min=0.0, rinse_ml=0.06,
+                         collection_duration_s, flow_rate_ml_min=0.0, rinse_ml=0.18,
                          per_vial_timeout=300, poll_interval=20):
         """
         Collect an entire reaction across consecutive vials.
