@@ -9,7 +9,6 @@ import os
 import yaml
 
 DROP_VOLUME_ML = 0.02   # 1 drop = 25 µL = 0.025 mL
-GPC_VOLUME_ML  = 0.10   # first vial per reaction: 4 drops × 0.025 mL
 
     
 class FractionCollector:
@@ -180,12 +179,8 @@ class FractionCollector:
 
         while True:
             # Determine current vial parameters based on whether it is the first vial
-            if vial_count == 0:
-                current_volume_ml = GPC_VOLUME_ML
-                current_label = "GPC"
-            else:
-                current_volume_ml = threshold_ml
-                current_label = "sample"
+            current_volume_ml = threshold_ml
+            current_label = "sample"
 
             current_drops = math.floor(current_volume_ml / DROP_VOLUME_ML)
             current_fill_time_s = (current_volume_ml / flow_rate_ml_min * 60) if flow_rate_ml_min > 0 else None
