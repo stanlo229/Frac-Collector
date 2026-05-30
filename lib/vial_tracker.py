@@ -27,9 +27,11 @@ class VialTracker:
         volume_ml     (float) — volume collected in mL
     """
 
-    def __init__(self, yaml_path: str = DEFAULT_YAML_PATH, num_vials: int = NUM_VIALS):
+    def __init__(self, yaml_path: str = DEFAULT_YAML_PATH, num_vials: int = NUM_VIALS, row_step: int = 1, row_count: int = 8):
         self.yaml_path = yaml_path
         self.num_vials = num_vials
+        self.row_step = row_step    # use every Nth row; 2 = skip even rows (rows 2,4,6,...)
+        self.row_count = row_count  # physical rows per column (e.g. 6 for a 6-row rack)
         self.current_vial_index = 0   # compatibility shim for WasteVialTracker interface
         self.num_waste_vials = num_vials
 
@@ -127,12 +129,23 @@ class VialTracker:
         print("-" * 56)
         for v in filled:
             print(f"{v['index']:<8} {v.get('vial_name', ''):<6} {v['label']:<8} {v['volume_ml']:<14.4f} {v['reaction_name']}")
-    def next_available_index(self) -> int:
-        """Return the index of the first vial with an empty label (i.e. unused).
+    def _is_valid_index(self, index: int) -> bool:
+        """Return True if this index corresponds to a physical vial (respects row_count and row_step)."""
+        return (index % self.row_count) % self.row_step == 0
 
-        Returns num_vials if all vials are occupied.
+    def next_available_index(self) -> int:
+        """Return the index of the first valid, unused vial.
+
+        Returns num_vials if all valid vials are occupied.
         """
         for v in self.vials:
-            if not (v.get("label") or "").strip():
+            if self._is_valid_index(v["index"]) and not (v.get("label") or "").strip():
                 return v["index"]
         return self.num_vials
+
+    def available_count(self) -> int:
+        """Return the number of valid, unused vials."""
+        return sum(
+            1 for v in self.vials
+            if self._is_valid_index(v["index"]) and not (v.get("label") or "").strip()
+        )

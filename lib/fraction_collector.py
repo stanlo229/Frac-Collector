@@ -18,7 +18,7 @@ class FractionCollector:
     mux_id = None
 
     def __init__(self, sensor_id=1, runze_valve_port='COM7', runze_valve_address=0, runze_valve_num_port=10, collection_num=3, waste_num=6,
-                 vial_tracker_path=None, config_file=None, cnc_machine=None):
+                 vial_tracker_path=None, config_file=None, cnc_machine=None, vial_row_step=1, vial_row_count=8):
         if config_file is not None:
             with open(config_file) as f:
                 cfg = yaml.safe_load(f).get('fraction_collector', {})
@@ -28,6 +28,8 @@ class FractionCollector:
             runze_valve_num_port = cfg.get('runze_valve_num_port', runze_valve_num_port)
             collection_num = cfg.get('collection_num', collection_num)
             waste_num = cfg.get('waste_num', waste_num)
+            vial_row_step = cfg.get('vial_row_step', vial_row_step)
+            vial_row_count = cfg.get('vial_row_count', vial_row_count)
         self.cnc_machine = cnc_machine if cnc_machine is not None else CNC_Machine()
         self.valve = RunzeValve(com_port=runze_valve_port, address=runze_valve_address, num_port=runze_valve_num_port)
         self.collection_num = collection_num
@@ -36,7 +38,7 @@ class FractionCollector:
         _tracker_path = vial_tracker_path or os.path.join(
             os.path.dirname(__file__), "vial_status.yaml"
         )
-        self.vial_tracker = VialTracker(yaml_path=_tracker_path)
+        self.vial_tracker = VialTracker(yaml_path=_tracker_path, row_step=vial_row_step, row_count=vial_row_count)
 
         # Read num_waste_vials from location_status.yaml cnc_waste_location.max
         _location_path = os.path.join(os.path.dirname(__file__), "location_status.yaml")
