@@ -10,7 +10,7 @@ import yaml
 
 DROP_VOLUME_ML = 0.02   # 1 drop = 25 µL = 0.025 mL
 COLLECT_FRACTION_RINSE_ML = 0.06
-COLLECT_REACTION_RINSE_ML = 0.30
+COLLECT_REACTION_RINSE_ML = 0.25
 
     
 class FractionCollector:
